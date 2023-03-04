@@ -1,6 +1,7 @@
 package com.driver.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -13,22 +14,19 @@ public class ServiceProvider {
 
     private String name;
 
-    List<User> users;
-    List<Connection> connectionList;
-    List<Country> countryList;
 
     @ManyToOne
     @JoinColumn
     private Admin admin;
 
     @OneToMany(mappedBy = "serviceProvider",cascade = CascadeType.ALL)
-    private Connection connection;
+    private List<Connection> connectionList = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "serviceProviderList",cascade = CascadeType.ALL)
+    private List<User> users = new ArrayList<>();
 
     @OneToMany(mappedBy = "serviceProvider",cascade = CascadeType.ALL)
-    private User user;
-
-    @OneToMany(mappedBy = "serviceProvider",cascade = CascadeType.ALL)
-    private Country country;
+    private List<Country> countryList = new ArrayList<>();
 
     public ServiceProvider() {
     }
@@ -47,14 +45,6 @@ public class ServiceProvider {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
     }
 
     public List<Connection> getConnectionList() {
@@ -81,27 +71,14 @@ public class ServiceProvider {
         this.admin = admin;
     }
 
-    public Connection getConnection() {
-        return connection;
+
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setConnection(Connection connection) {
-        this.connection = connection;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
-    }
 }

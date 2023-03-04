@@ -2,6 +2,7 @@ package com.driver.services.impl;
 
 import com.driver.model.Admin;
 import com.driver.model.Country;
+import com.driver.model.CountryName;
 import com.driver.model.ServiceProvider;
 import com.driver.repository.AdminRepository;
 import com.driver.repository.CountryRepository;
@@ -46,9 +47,9 @@ public class AdminServiceImpl implements AdminService {
         serviceProvider.setAdmin(admin);
 
         //admin.setServiceProvider(serviceProvider);
-        List<ServiceProvider> listOfServiceProviders = admin.getListOfServiceProviders();
+        List<ServiceProvider> listOfServiceProviders = admin.getServiceProviders();
         listOfServiceProviders.add(serviceProvider);
-        admin.setListOfServiceProviders(listOfServiceProviders);
+        admin.setServiceProviders(listOfServiceProviders);
 
         adminRepository1.save(admin);
 
@@ -59,24 +60,39 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public ServiceProvider addCountry(int serviceProviderId, String countryName) throws Exception{
 
-        ServiceProvider serviceProvider = serviceProviderRepository1.findById(serviceProviderId).get();
-        List<Country> countryList = serviceProvider.getCountryList();
+        if(countryName.equalsIgnoreCase("IND") || countryName.equalsIgnoreCase("USA") || countryName.equalsIgnoreCase("JPN") || countryName.equalsIgnoreCase("CHI") || countryName.equalsIgnoreCase("AUS")){
+            Country country = new Country();
 
-        String[] countryArr = new String[] {"ind", "aus", "usa", "chi", "jpn"};
+            ServiceProvider serviceProvider = serviceProviderRepository1.findById(serviceProviderId).get();
 
-        countryName = countryName.toLowerCase();
-
-        for(String countryFromList : countryArr){
-            if(countryName.equals(countryFromList)){
-                Country country = new Country();
-                country.setCountryName(countryName);
-
-                countryList.add(country);
-                serviceProvider.setCountryList(countryList);
-                serviceProviderRepository1.save(serviceProvider);
+            if(countryName.equalsIgnoreCase("IND")){
+                country.setCountryName(CountryName.IND);
+                country.setCode(CountryName.IND.toCode());
             }
-        }
+            if(countryName.equalsIgnoreCase("USA")){
+                country.setCountryName(CountryName.USA);
+                country.setCode(CountryName.USA.toCode());
+            }
+            if(countryName.equalsIgnoreCase("JPN")){
+                country.setCountryName(CountryName.JPN);
+                country.setCode(CountryName.JPN.toCode());
+            }
+            if(countryName.equalsIgnoreCase("CHI")){
+                country.setCountryName(CountryName.CHI);
+                country.setCode(CountryName.CHI.toCode());
+            }
+            if(countryName.equalsIgnoreCase("AUS")){
+                country.setCountryName(CountryName.AUS);
+                country.setCode(CountryName.AUS.toCode());
+            }
+            country.setServiceProvider(serviceProvider);
+            serviceProvider.getCountryList().add(country);
+            serviceProviderRepository1.save(serviceProvider);
 
-        throw new Exception("Country not found");
+            return serviceProvider;
+        }
+        else{
+            throw new Exception("Country not found");
+        }
     }
 }
