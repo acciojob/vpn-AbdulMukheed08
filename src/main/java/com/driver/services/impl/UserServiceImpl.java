@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
                 country.setCountryName(CountryName.CHI);
                 country.setCode(CountryName.CHI.toCode());
             }
-            if (countryName.equalsIgnoreCase("AUA")) {
+            if (countryName.equalsIgnoreCase("AUS")) {
                 country.setCountryName(CountryName.AUS);
                 country.setCode(CountryName.AUS.toCode());
             }

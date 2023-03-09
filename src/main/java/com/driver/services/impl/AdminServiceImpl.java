@@ -11,6 +11,7 @@ import com.driver.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -60,7 +61,17 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public ServiceProvider addCountry(int serviceProviderId, String countryName) throws Exception{
 
-        if(countryName.equalsIgnoreCase("IND") || countryName.equalsIgnoreCase("USA") || countryName.equalsIgnoreCase("JPN") || countryName.equalsIgnoreCase("CHI") || countryName.equalsIgnoreCase("AUS")){
+        countryName = countryName.toUpperCase();
+
+        HashMap<String,String> countryCodeMap = new HashMap<>();
+        countryCodeMap.put("IND","001");
+        countryCodeMap.put("USA","002");
+        countryCodeMap.put("AUS","003");
+        countryCodeMap.put("CHI","004");
+        countryCodeMap.put("JPN","005");
+
+
+        if(countryCodeMap.containsKey(countryName)){
             Country country = new Country();
 
             ServiceProvider serviceProvider = serviceProviderRepository1.findById(serviceProviderId).get();
